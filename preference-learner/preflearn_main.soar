@@ -1,0 +1,60 @@
+
+sp {propose*preflearn*input-option
+    "Propose any of the options given on the input-link"
+    (state <s> ^io.input-link <il>)
+    (<il> ^option <opt>)
+    -->
+    (<s> ^operator <o> +)
+    (<o> ^name choose-option
+        ^option <opt>)}
+
+sp {apply*preflearn*input-option
+    "Output the selected option"
+    (state <s> ^operator <o>
+            ^io.output-link <ol>)
+    (<o> ^name choose-option
+        ^option <opt>)
+    -->
+    (<ol> ^selected-option <opt>)}
+
+
+# TIE IMPASSE SUBSTATE
+
+sp {propose*preflearn-tie*get-help
+    "Pick two of the tied options to ask for help about"
+    (state <s> ^impasse tie
+            ^item <i1> 
+            ^item {<i2> > <i1>})   # Make sure the second item has a higher ID than the first, so that we avoid duplicate rule matches
+    (<i1> ^option <p1>)
+    (<i2> ^option <p2>)
+    -->
+    (<s> ^operator <o> + =)
+    (<o> ^name get-help
+        ^option <p1> <p2>)}
+
+sp {apply*preflearn-tie*get-help
+    "Send a request for help on the topstate output-link"
+    (state <s> ^operator <o>
+            ^superstate.io.output-link <sol>)
+    (<o> ^name get-help
+        ^option <p1> 
+        ^option {<p2> > <p1>})     # Avoid duplicate rule matches the same way as in the proposal rule
+    -->
+    (<sol> ^help-request <h-new>)
+    (<h-new> ^option <p1> 
+            ^option <p2>)}
+
+
+sp {elaborate*preflearn-tie*create-preference
+    "From the tie substate, return a preference to the topstate based on input help"
+    (state <s> ^superstate <ss> 
+            ^item <o1> 
+            ^item <o2>)
+    (<o1> ^option <opt1>)
+    (<o2> ^option <opt2>)
+    (<ss> ^io.input-link.correct-choice <cc>)
+    (<cc> ^preferred-option <opt1> 
+        ^rejected-option <opt2>)
+-->
+    (<ss> ^operator <o1> > <o2>)}
+

@@ -1,0 +1,8 @@
+soar wait-snc on
+
+# Main agent file
+load file "preflearn_main.soar"
+
+# Mock input generation
+load file "preflearn_test_input.soar"
+load file "preflearn_test_feedback1.soar"

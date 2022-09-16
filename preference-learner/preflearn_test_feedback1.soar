@@ -1,0 +1,29 @@
+sp {elaborate*preflearn*test-feedback*avoid-monster
+    (state <s> ^io <io>)
+    (<io> ^input-link <il>
+        ^output-link <ol>)
+    (<ol> ^help-request <h>)
+    (<h> ^option <p1> {<p2> <> <p1>})
+    (<p1> ^name left)
+    -->
+    (<il> ^correct-choice <c-new>)
+    (<c-new> ^preferred-option <p2> 
+            ^rejected-option <p1>
+            ^reason-attribute special
+            ^reason-type negative)}
+
+sp {elaborate*preflearn*test-feedback*prefer-gold
+    (state <s> ^io <io>)
+    (<io> ^input-link <il>
+        ^output-link <ol>)
+    (<ol> ^help-request <h>)
+    (<h> ^option <p1> {<p2> <> <p1>})
+    (<p1> ^gold <g1>
+        -^special monster)
+    (<p2> ^gold < <g1>)
+    -->
+    (<il> ^correct-choice <c-new>)
+    (<c-new> ^preferred-option <p1> 
+            ^rejected-option <p2>
+            ^reason-attribute gold
+            ^reason-type positive)}
