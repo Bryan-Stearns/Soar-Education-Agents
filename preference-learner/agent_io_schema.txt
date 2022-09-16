@@ -1,0 +1,14 @@
+^input-link
+    ^option                       # (0+) One of potentially many options that the agent needs to select from
+        ^name STRING              # (1) What is the name of this option (e.g. "left" or "up")
+        ^gold INT                 # (1) How much gold can the agent see in this direction
+        ^special STRING           # (0+) Optional: If the agent sees something special in this direction, such as: << axe monster >>
+    ^correct-choice               # (0+) Feedback to teach the agent decision making preference
+        ^preferred-option ID      # (1) Which option to prefer of two competitors (points to the same ID as given in input)
+        ^rejected-option ID       # (1) Which option is the preffered-option preferred over
+        ^reason-attribute STRING  # (0/1) Which attribute of the option led to this preference (such as: << gold special >>)
+        ^reason-type STRING       # (0/1) Possible values: << positive negative >> 
+                                  #       If reason-attribute is given, tells whether it was 
+                                  #       because the preferred-option had a positive association with it, or
+                                  #       because the rejected-option had a negative association with it.
+    
