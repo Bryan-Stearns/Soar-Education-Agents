@@ -35,6 +35,7 @@ sp {propose*preflearn-tie*get-help
 sp {apply*preflearn-tie*get-help
     "Send a request for help on the topstate output-link"
     (state <s> ^operator <o>
+            ^quiescence t
             ^superstate.io.output-link <sol>)
     (<o> ^name get-help
         ^option <p1> 
@@ -57,4 +58,3 @@ sp {elaborate*preflearn-tie*create-preference
         ^rejected-option <opt2>)
 -->
     (<ss> ^operator <o1> > <o2>)}
-
