@@ -35,11 +35,11 @@ sp {propose*preflearn-tie*get-help
 sp {apply*preflearn-tie*get-help
     "Send a request for help on the topstate output-link"
     (state <s> ^operator <o>
-            ^quiescence t
+            ^quiescence t           # This tests quiescence, effectively testing that the impasse itself is needed for our result of asking for help
             ^superstate.io.output-link <sol>)
     (<o> ^name get-help
         ^option <p1> 
-        ^option {<p2> > <p1>})     # Avoid duplicate rule matches the same way as in the proposal rule
+        ^option {<p2> > <p1>})      # Avoid duplicate rule matches the same way as in the proposal rule
     -->
     (<sol> ^help-request <h-new>)
     (<h-new> ^option <p1> 

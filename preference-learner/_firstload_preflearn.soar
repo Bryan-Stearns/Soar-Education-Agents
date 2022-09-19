@@ -1,5 +1,8 @@
 soar wait-snc on
 
+# Turn on chunking
+chunk always
+
 # Main agent file
 load file "preflearn_main.soar"
 
