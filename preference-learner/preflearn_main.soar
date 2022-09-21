@@ -18,6 +18,41 @@ sp {apply*preflearn*input-option
     (<ol> ^selected-option <opt>)}
 
 
+sp {propose*prefleran*store-correct-choice
+    "When the agent sees feedback, save the pattern to smem"
+    (state <s> ^io.input-link.correct-choice <cc>
+                ^smem.command <scmd>)
+    (<cc> ^preferred-option <po>
+        ^rejected-option <ro>
+        -^status success)
+-->
+    (<s> ^operator <o> + >)
+    (<o> ^name store-correct-choice)}
+
+
+sp {apply*preflearn*store-correct-chooice
+    (state <s> ^operator <o>
+            ^io.input-link.correct-choice <cc>
+            ^smem.command <scmd>)
+    (<cc> ^preferred-option <po>
+        ^rejected-option <ro>)
+    (<o> ^name store-correct-choice)
+-->
+    (<scmd> ^store <cc> <po> <ro>)
+    (<cc> ^status success)}
+
+
+sp {set*smem*clean*store
+    "Clean any store command from smem when its complete"
+    :o-support
+    (state <s> ^smem <smem>)
+    (<smem> ^command <scmd>
+            ^result.success <store>)
+    (<scmd> ^store <store>)
+-->
+    (<scmd> ^store <store> -)}
+
+
 # TIE IMPASSE SUBSTATE
 
 sp {propose*preflearn-tie*get-help

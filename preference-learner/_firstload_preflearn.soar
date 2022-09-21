@@ -3,6 +3,9 @@ soar wait-snc on
 # Turn on chunking
 chunk always
 
+# Turn on smem
+smem --enable
+
 # Main agent file
 load file "preflearn_main.soar"
 
