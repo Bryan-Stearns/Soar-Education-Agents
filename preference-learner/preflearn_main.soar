@@ -59,7 +59,8 @@ sp {propose*preflearn-tie*get-help
     "Pick two of the tied options to ask for help about"
     (state <s> ^impasse tie
             ^item <i1> 
-            ^item {<i2> > <i1>})   # Make sure the second item has a higher ID than the first, so that we avoid duplicate rule matches
+            ^item {<i2> > <i1>}  # Make sure the second item has a higher ID than the first, so that we avoid duplicate rule matches
+            ^correct-choice-smem none) 
     (<i1> ^option <p1>)
     (<i2> ^option <p2>)
     -->
@@ -88,8 +89,71 @@ sp {elaborate*preflearn-tie*create-preference
             ^item <o2>)
     (<o1> ^option <opt1>)
     (<o2> ^option <opt2>)
-    (<ss> ^io.input-link.correct-choice <cc>)
+    (<s> ^correct-choice-smem <cc>)
     (<cc> ^preferred-option <opt1> 
         ^rejected-option <opt2>)
 -->
     (<ss> ^operator <o1> > <o2>)}
+
+sp {propose*query-correct-choice
+    (state <s> ^impasse tie) #need to test for substate
+    (<s> -^correct-choice-smem <cc>)
+-->
+    (<s> ^operator <o> + = <)
+    (<o> ^name query-correct-choice)
+}
+
+sp {apply*query-correct-choice
+    (state <s> ^operator.name query-correct-choice)
+    (<s> ^smem.command <scmd>)
+-->
+    (<scmd> ^query <q> ^depth 2)
+    (<q> ^preferred-option <po>
+         ^rejected-option <ro>)
+}
+
+sp {propose*preflearn*query-cc-success
+    (state <s> ^smem.result.success <q>)
+    (<q> ^preferred-option <po>
+        ^rejected-option <ro>)
+-->
+    (<s> ^operator <o> +)
+    (<o> ^name query-cc-success)
+}
+
+sp {apply*preflearn*query-cc-success
+    (state <s> ^operator.name query-cc-success
+            ^smem <smem>)
+    (<smem> ^result.retrieved <ret>
+            ^command <cmd>)
+    (<cmd> ^query <q>
+        ^depth <d>)
+    (<ret> ^preferred-option <po>
+        ^rejected-option <ro>)
+-->
+    (<s> ^correct-choice-smem <ret>)
+    (<cmd> ^query <q> -
+        ^depth <d> -)
+}
+
+sp {propose*preflearn*query-cc-failure
+    (state <s> ^smem.result.failure <q>)
+    (<q> ^preferred-option <po>
+        ^rejected-option <ro>)
+-->
+    (<s> ^operator <o> +)
+    (<o> ^name query-cc-failure)
+}
+
+
+sp {apply*preflearn*query-cc-failure
+    (state <s> ^operator.name query-cc-failure
+            ^smem <smem>)
+    (<smem> ^command <cmd>)
+    (<cmd> ^query <q>
+        ^depth <d>)
+-->
+    (<s> ^correct-choice-smem none)
+    (<cmd> ^query <q> -
+        ^depth <d> -)
+}
