@@ -2,8 +2,8 @@ soar wait-snc on
 
 # Set output trace levels
 watch 4             # To get WM change output
-watch -b            # To get chunk backtracing output when chunks are learned
 watch -L fullprint  # To print new chunks and justifications as they are created
+# watch -b            # To get chunk backtracing output when chunks are learned
 
 # Turn on chunking
 chunk always
