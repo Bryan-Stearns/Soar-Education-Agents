@@ -9,6 +9,7 @@ sp {elaborate*preflearn*test-feedback*avoid-monster
     (<il> ^correct-choice <c-new>)
     (<c-new> ^preferred-option <p2> 
             ^rejected-option <p1>
+            ^option <p1> <p2>
             ^reason-attribute special
             ^reason-type negative)}
 
@@ -25,5 +26,6 @@ sp {elaborate*preflearn*test-feedback*prefer-gold
     (<il> ^correct-choice <c-new>)
     (<c-new> ^preferred-option <p1> 
             ^rejected-option <p2>
+            ^option <p1> <p2>
             ^reason-attribute gold
             ^reason-type positive)}
