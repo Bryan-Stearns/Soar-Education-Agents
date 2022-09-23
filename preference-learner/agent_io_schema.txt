@@ -4,6 +4,7 @@
         ^gold INT                 # (1) How much gold can the agent see in this direction
         ^special STRING           # (0+) Optional: If the agent sees something special in this direction, such as: << axe monster >>
     ^correct-choice               # (0+) Feedback to teach the agent decision making preference
+        ^option ID                # (2) The two options, without preference. (This allows easy querying for this structure from smem.)
         ^preferred-option ID      # (1) Which option to prefer of two competitors (points to the same ID as given in input)
         ^rejected-option ID       # (1) Which option is the preffered-option preferred over
         ^reason-attribute STRING  # (0/1) Which attribute of the option led to this preference (such as: << gold special >>)
