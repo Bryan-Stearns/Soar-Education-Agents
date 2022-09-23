@@ -5,11 +5,12 @@ sp {elaborate*preflearn*test-feedback*avoid-monster
     (<ol> ^help-request <h>)
     (<h> ^option <p1> {<p2> <> <p1>})
     (<p1> ^name left)
+    (<p2> ^name <p2-name>)
     -->
     (<il> ^correct-choice <c-new>)
     (<c-new> ^preferred-option <p2> 
             ^rejected-option <p1>
-            ^option <p1> <p2>
+            ^option-name left <p2-name>
             ^reason-attribute special
             ^reason-type negative)}
 
@@ -19,13 +20,15 @@ sp {elaborate*preflearn*test-feedback*prefer-gold
         ^output-link <ol>)
     (<ol> ^help-request <h>)
     (<h> ^option <p1> {<p2> <> <p1>})
-    (<p1> ^gold <g1>
+    (<p1> ^name <p1-name>
+         ^gold <g1>
         -^special monster)
-    (<p2> ^gold < <g1>)
+    (<p2> ^name <p2-name>
+          ^gold < <g1>)
     -->
     (<il> ^correct-choice <c-new>)
     (<c-new> ^preferred-option <p1> 
             ^rejected-option <p2>
-            ^option <p1> <p2>
+            ^option-name <p1-name> <p2-name>
             ^reason-attribute gold
             ^reason-type positive)}
