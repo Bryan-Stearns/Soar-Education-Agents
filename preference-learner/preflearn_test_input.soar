@@ -6,9 +6,9 @@ sp {elaborate*preflearn*test-input
             ^gold 4)
     (<p-new2> ^name down
             ^gold 1
-            ^special axe)
+            ^axe 1)
     (<p-new3> ^name left
             ^gold 10
-            ^special monster)
+            ^monster 1)
     (<p-new4> ^name right
             ^gold 8)}

@@ -11,7 +11,7 @@ sp {elaborate*preflearn*test-feedback*avoid-monster
     (<c-new> ^preferred-option <p2> 
             ^rejected-option <p1>
             ^option-name left <p2-name>
-            ^reason-attribute special
+            ^reason-attribute monster
             ^reason-type negative)}
 
 sp {elaborate*preflearn*test-feedback*prefer-gold
@@ -22,7 +22,7 @@ sp {elaborate*preflearn*test-feedback*prefer-gold
     (<h> ^option <p1> {<p2> <> <p1>})
     (<p1> ^name <p1-name>
          ^gold <g1>
-        -^special monster)
+        -^monster )
     (<p2> ^name <p2-name>
           ^gold < <g1>)
     -->
