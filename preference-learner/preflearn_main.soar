@@ -15,7 +15,7 @@ sp {apply*preflearn*input-option
     (<o> ^name choose-option
         ^option <opt>)
     -->
-    (<ol> ^selected-option <opt>)}
+    (<ol> ^proposed-option <opt>)}
 
 
 sp {propose*prefleran*store-correct-choice

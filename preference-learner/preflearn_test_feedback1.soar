@@ -32,3 +32,38 @@ sp {elaborate*preflearn*test-feedback*prefer-gold
             ^option-name <p1-name> <p2-name>
             ^reason-attribute gold
             ^reason-type positive)}
+
+sp {elaborate*preflearn*test-feedback*accept-option
+    (state <s> ^io <io>)
+    (<io> ^input-link <il>
+        ^output-link <ol>)
+    (<ol> ^proposed-option <po>)
+    (<po> ^name right)
+-->
+    (<il> ^correct-choice <c-new>)
+    (<c-new> ^preferred-option <po>
+            ^option-name right)}
+
+sp {elaborate*preflearn*test-feedback*reject-option
+    (state <s> ^io <io>)
+    (<io> ^input-link <il>
+        ^output-link <ol>)
+    (<ol> ^proposed-option <po>)
+    (<po> ^name left)
+-->
+    (<il> ^correct-choice <c-new>)
+    (<c-new> ^rejected-option <po>
+            ^option-name left
+            ^reason-attribute monster
+            ^reason-type negative)}
+
+sp {elaborate*preflearn*test-feedback*reject-option-2
+    (state <s> ^io <io>)
+    (<io> ^input-link <il>
+        ^output-link <ol>)
+    (<ol> ^proposed-option <po>)
+    (<po> ^name {<po-name> << up down >>})
+-->
+    (<il> ^correct-choice <c-new>)
+    (<c-new> ^rejected-option <po>
+            ^option-name <po-name>)}
