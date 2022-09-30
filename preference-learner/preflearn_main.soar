@@ -17,6 +17,59 @@ sp {apply*preflearn*input-option
     -->
     (<ol> ^proposed-option <opt>)}
 
+sp {apply*preflearn*input-option*remove-output
+    (state <s> ^operator <o>
+            ^io.output-link <ol>)
+    (<o> ^name choose-option
+        ^option <opt>)
+    (<ol> ^proposed-option {<> <opt> <opt2>})
+-->
+    (<ol> ^proposed-option <opt2> -)}
+
+sp {propose*preflearn*confirm-option
+    (state <s> ^io.input-link.correct-choice <cc>)
+    (<cc> ^preferred-option <po>
+        -^rejected-option <ro>)
+-->
+    (<s> ^operator <o> + >)
+    (<o> ^name select-option
+        ^option <po>)}
+
+sp {apply*preflearn*confirm-option
+    (state <s> ^operator <o>
+            ^io.output-link <ol>)
+    (<o> ^name select-option
+        ^option <opt>)
+-->
+    (<ol> ^selected-option <opt>)}
+
+
+sp {propose*preflearn*reject-option
+    (state <s> ^io.input-link <il>
+            ^operator <o1> +)
+    (<o1> ^option <ro>
+        ^name choose-option)
+    (<il> ^correct-choice <cc>)
+    (<cc> ^rejected-option <ro>
+        ^reason-attribute <ra>
+        ^reason-type <rt>
+        -^preferred-option <po>)
+-->
+    (<s> ^operator <o> + >)
+    (<o> ^name reject-option
+        ^option <ro>)}
+
+sp {apply*preflearn*reject-option
+    (state <s> ^operator <o1>
+            ^operator <o2> +
+            ^io.output-link <ol>)
+    (<o1> ^name reject-option
+        ^option <opt>)
+    (<o2> ^name choose-option
+        ^option <opt>)
+-->
+    (<s> ^operator <o2> -)}
+
 
 sp {propose*prefleran*store-correct-choice
     "When the agent sees feedback, save the pattern to smem"
@@ -87,8 +140,10 @@ sp {elaborate*preflearn-tie*create-preference-positive
     (state <s> ^superstate <ss> 
             ^item <o1> 
             ^item <o2>)
-    (<o1> ^option {<item-opt1> @ <opt1>})
-    (<o2> ^option {<item-opt2> @ <opt2>})
+    (<o1> ^option {<item-opt1> @ <opt1>}
+        ^name choose-option)
+    (<o2> ^option {<item-opt2> @ <opt2>}
+        ^name choose-option)
     (<s> ^correct-choice-smem <cc>)
     (<cc> ^preferred-option <opt1> 
         ^rejected-option <opt2> 
@@ -99,8 +154,7 @@ sp {elaborate*preflearn-tie*create-preference-positive
     #(<item-opt1> ^name <opt1-name>)
     #(<item-opt2> ^name <opt2-name>)
 -->
-    (<ss> ^operator <o1> > <o2>)
-}
+    (<ss> ^operator <o1> > <o2>)}
 
 sp {elaborate*preflearn-tie*create-preference-negative
     "From the tie substate, return a preference to the topstate based on input help"
@@ -120,7 +174,6 @@ sp {elaborate*preflearn-tie*create-preference-negative
 -->
     (<ss> ^operator <o1> > <o2>)
 }
-
 
 
 sp {propose*query-correct-choice

@@ -9,6 +9,7 @@ watch -L fullprint  # To print new chunks and justifications as they are created
 chunk always
 
 # Turn on smem
+smem --clear
 smem --enable
 
 # Main agent file
