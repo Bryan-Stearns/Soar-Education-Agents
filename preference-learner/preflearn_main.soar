@@ -134,9 +134,7 @@ sp {apply*preflearn-tie*get-help
     (<h-new> ^option <p1> 
             ^option <p2>)}
 
-
-sp {elaborate*preflearn-tie*create-preference-positive
-    "From the tie substate, return a preference to the topstate based on input help"
+sp {propose*preflearn-tie*create-preference
     (state <s> ^superstate <ss> 
             ^item <o1> 
             ^item <o2>)
@@ -147,32 +145,50 @@ sp {elaborate*preflearn-tie*create-preference-positive
     (<s> ^correct-choice-smem <cc>)
     (<cc> ^preferred-option <opt1> 
         ^rejected-option <opt2> 
-        ^reason-attribute <attr>
-        ^reason-type positive)
+        ^reason-attribute <attr> )
+-->
+    (<s> ^operator <o> +)
+    (<o> ^name create-preference
+        ^preferred-item <o1>
+        ^rejected-item <o2>
+        ^reason-attribute <attr> )
+}
+sp {apply*preflearn-tie*create-preference-positive
+    "From the tie substate, return a preference to the topstate based on input help"
+    (state <s> ^correct-choice-smem <cc>
+        ^operator <o>
+        ^superstate <ss>)
+    (<cc> ^reason-type positive)
+    (<o> ^name create-preference
+        ^preferred-item <o1>
+        ^rejected-item <o2>
+        ^reason-attribute <attr> )
+    (<o1> ^option <item-opt1>)
+    (<o2> ^option <item-opt2>)
     (<item-opt1> ^<attr> <attr-value>)
     (<item-opt2> ^<attr> < <attr-value>)
     #(<item-opt1> ^name <opt1-name>)
     #(<item-opt2> ^name <opt2-name>)
 -->
-    (<ss> ^operator <o1> > <o2>)}
+    (<ss> ^operator <o1> > <o2>)
+    (<s> ^correct-choice-smem <cc> -)}
 
-sp {elaborate*preflearn-tie*create-preference-negative
+sp {apply*preflearn-tie*create-preference-negative
     "From the tie substate, return a preference to the topstate based on input help"
-    (state <s> ^superstate <ss> 
-            ^item <o1> 
-            ^item <o2>)
-    (<o1> ^option {<item-opt1> @ <opt1>})
-    (<o2> ^option {<item-opt2> @ <opt2>})
-    (<s> ^correct-choice-smem <cc>)
-    (<cc> ^preferred-option <opt1> 
-        ^rejected-option <opt2> 
-        ^reason-attribute <attr>
-        ^reason-type negative)
+    (state <s> ^correct-choice-smem <cc>
+        ^operator <o>
+        ^superstate <ss>)
+    (<cc> ^reason-type negative)
+    (<o> ^name create-preference
+        ^rejected-item <o2>
+        ^reason-attribute <attr> )
+    (<o2> ^option <item-opt2>)
     (<item-opt2> ^<attr> <attr-value>)
     #(<item-opt1> ^name <opt1-name>)
     #(<item-opt2> ^name <opt2-name>)
 -->
     (<ss> ^operator <o1> > <o2>)
+    (<s> ^correct-choice-smem <cc> -)
 }
 
 
@@ -202,7 +218,7 @@ sp {propose*preflearn*query-cc-success
     (<o> ^name query-cc-success)
 }
 
-sp {apply*preflearn*query-cc-success
+sp {apply*preflearn*query-cc-success*create-cc-smem
     (state <s> ^operator.name query-cc-success
             ^smem <smem>)
     (<smem> ^result.retrieved <ret>
@@ -212,9 +228,30 @@ sp {apply*preflearn*query-cc-success
     (<ret> ^preferred-option <po>
         ^rejected-option <ro>)
 -->
-    (<s> ^correct-choice-smem <ret>)
+    (<s> ^correct-choice-smem (deep-copy <ret>))
+}
+
+sp {apply*preflearn*query-cc-success*link-cc-ret
+    (state <s> ^operator.name query-cc-success
+            ^smem <smem>
+            ^correct-choice-smem <cc>)
+    (<cc> ^preferred-option <po-cc>
+        ^rejected-option <ro-cc>)
+    (<smem> ^result.retrieved <ret>
+            ^command <cmd>)
+    (<cmd> ^query <q>
+        ^depth <d>)
+    (<ret> ^preferred-option <po>
+        ^rejected-option <ro>)
+-->
+    (link-stm-to-ltm <cc> (@ <ret>))
+    (link-stm-to-ltm <po-cc> (@ <po>))
+    (link-stm-to-ltm <ro-cc> (@ <ro>))
     (<cmd> ^query <q> -
-        ^depth <d> -)
+        ^depth <d> -
+        ^store <ret>)
+    (<ret> ^preferred-option <po> -
+        ^rejected-option <ro> -)
 }
 
 sp {propose*preflearn*query-cc-failure
