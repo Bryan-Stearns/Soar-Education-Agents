@@ -1,4 +1,3 @@
-
 sp {propose*preflearn*input-option
     "Propose any of the options given on the input-link"
     (state <s> ^io.input-link <il>)
@@ -138,14 +137,17 @@ sp {propose*preflearn-tie*create-preference
     (state <s> ^superstate <ss> 
             ^item <o1> 
             ^item <o2>)
-    (<o1> ^option {<item-opt1> @ <opt1>}
+    (<o1> ^option {<item-opt1>}
         ^name choose-option)
+    (<opt1> ^name <opt1-name>)
+    (<item-opt1> ^name <opt1-name>)
     (<o2> ^option {<item-opt2> @ <opt2>}
         ^name choose-option)
     (<s> ^correct-choice-smem <cc>)
     (<cc> ^preferred-option <opt1> 
         ^rejected-option <opt2> 
         ^reason-attribute <attr> )
+    (<item-opt2> ^<attr>)
 -->
     (<s> ^operator <o> +)
     (<o> ^name create-preference
@@ -187,7 +189,7 @@ sp {apply*preflearn-tie*create-preference-negative
     #(<item-opt1> ^name <opt1-name>)
     #(<item-opt2> ^name <opt2-name>)
 -->
-    (<ss> ^operator <o1> > <o2>)
+    (<ss> ^operator <o2> <)
     (<s> ^correct-choice-smem <cc> -)
 }
 
